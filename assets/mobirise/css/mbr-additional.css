@@ -2701,9 +2701,17 @@ section.lazy-placeholder:after {
 .cid-rRVOdZNlll .dropdown-item:hover {
   color: #5668f2 !important;
 }
-.cid-rTK1RQ177w {
+.cid-rWQs0OjkWe {
   padding-top: 90px;
-  padding-bottom: 90px;
+  padding-bottom: 60px;
+  background-color: #ffffff;
+}
+.cid-rWQs0OjkWe .mbr-section-subtitle {
+  color: #767676;
+}
+.cid-rTK1RQ177w {
+  padding-top: 0px;
+  padding-bottom: 0px;
   background-color: #efefef;
 }
 .cid-rTK1RQ177w .card-box {
@@ -2729,6 +2737,40 @@ section.lazy-placeholder:after {
   transition: box-shadow 0.3s;
 }
 .cid-rTK1RQ177w .card-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+}
+.cid-rWQxs5N0yU {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  background-color: #efefef;
+}
+.cid-rWQxs5N0yU .card-box {
+  background-color: #ffffff;
+  padding: 2rem;
+}
+.cid-rWQxs5N0yU h4 {
+  font-weight: 500;
+  margin-bottom: 0;
+  text-align: left;
+}
+.cid-rWQxs5N0yU p {
+  color: #767676;
+  text-align: left;
+}
+.cid-rWQxs5N0yU .card-wrapper {
+  position: relative;
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+  transition: box-shadow 0.3s;
+}
+.cid-rWQxs5N0yU .card-wrapper:hover {
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s;
+}
+.cid-rWQxs5N0yU .card-img {
   position: absolute;
   top: 0;
   left: 0;
