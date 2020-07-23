@@ -1,4 +1,4 @@
-(function($) {
+(function($){
 
     var NAME = 'navDropdown';
     var DATA_KEY = 'bs.nav-dropdown';
@@ -53,7 +53,10 @@
         DATA_TOGGLE: '[data-toggle="dropdown-submenu"]',
         FORM_CHILD: '.dropdown form'
     };
-    var $$ = (function() {
+
+
+
+    var $$ = (function(){
 
         function Item(elements, prevItem) {
             if (!('length' in elements)) elements = [elements];
@@ -74,14 +77,14 @@
 
         Item.prototype.parent = function() {
             return new Item(
-
-                $(this).map(function() {
+                
+                $(this).map(function(){
 
                     var $$this = new Item(this);
 
                     if ($$this.is(':upper')) return null;
 
-                    return $($$this.is(':toggle') ? this.parentNode.parentNode : this)
+                    return $( $$this.is(':toggle') ? this.parentNode.parentNode : this )
                         .closest(Selector.DROPDOWN)
                         .find('>' + Selector.DATA_TOGGLE)[0];
 
@@ -93,14 +96,14 @@
         };
 
         Item.prototype.parents = function(selector) {
-            var elements = $(this).map(function() {
+            var elements = $(this).map(function(){
 
                 return (new Item(this)).is(':toggle') ? this.parentNode : this;
 
             }).parentsUntil(Selector.BASE, Selector.DROPDOWN);
 
             if (selector === ':upper') elements = elements.last();
-
+                
             elements = elements.find('>' + Selector.DATA_TOGGLE);
 
             return new Item(elements, this);
@@ -110,7 +113,7 @@
 
             var elements = [];
 
-            $(this).each(function() {
+            $(this).each(function(){
 
                 var $parent, $items, $$item = new Item(this);
 
@@ -130,10 +133,10 @@
                     $items = $parent.find('>a, >' + Selector.DROPDOWN + '>a');
                 }
 
-                $items.each(function() {
+                $items.each(function(){
 
-                    if ((deepSearch && !this.offsetWidth && !this.offsetHeight) ||
-                        this.disabled || $(this).is(Selector.DATA_BUTTON) || $(this).hasClass(ClassName.DISABLED) || ~$.inArray(this, elements)) {
+                    if ((deepSearch && !this.offsetWidth && !this.offsetHeight)
+                        || this.disabled || $(this).is(Selector.DATA_BUTTON) || $(this).hasClass(ClassName.DISABLED) || ~$.inArray(this, elements)) {
                         return;
                     }
 
@@ -156,14 +159,14 @@
 
         Item.prototype.jump = function(step) {
             step = step || 'next';
-
+            
             if (!this.length) {
                 return new Item([], this);
             }
-
+            
             var children, $$item = this.eq(0);
             if (this.is(':flat') || $$item.is(':upper')) {
-                children = $$item.root().children(this.is(':flat'));
+                children = $$item.root().children( this.is(':flat') );
             } else {
                 children = $$item.parent().children();
             }
@@ -188,7 +191,7 @@
             }
 
             if (step == 'first') return new Item(children[0], this);
-            if (step == 'last') return new Item(children[children.length - 1], this);
+            if (step == 'last') return new Item(children[ children.length - 1 ], this);
 
             return new Item([], this);
         };
@@ -233,11 +236,11 @@
         Item.prototype.is = function(selector) {
             var $this = $(this),
                 selectors = (selector || '').split(/(?=[*#.\[:\s])/);
-
-            while (selector = selectors.pop()) {
-
-                switch (selector) {
-
+            
+            while (selector = selectors.pop()){
+            
+                switch (selector){
+                
                     case ':root':
                         if (!$this.is(Selector.BASE))
                             return false;
@@ -302,19 +305,22 @@
         };
 
     })();
-    var NavDropdown = function(element) {
+
+
+
+    var NavDropdown = function(element){
         this._element = element;
         $(this._element).on(Event.CLICK, this.toggle);
     };
 
-    NavDropdown.prototype.toggle = function(event) {
+    NavDropdown.prototype.toggle = function(event) {        
         if (this.disabled || $(this).hasClass(ClassName.DISABLED)) {
             return false;
         }
 
         var $parent = $(this.parentNode);
         var isActive = $parent.hasClass(ClassName.OPEN);
-        var isCollapsed = NavDropdown._isCollapsed($(this).closest(Selector.BASE));
+        var isCollapsed = NavDropdown._isCollapsed( $(this).closest(Selector.BASE) );
 
         NavDropdown._clearMenus(
             $.Event('click', {
@@ -329,13 +335,13 @@
             return false;
         }
 
-        if ('ontouchstart' in document.documentElement &&
-            !$parent.closest(Selector.DROPDOWN + '.' + ClassName.OPEN).length) {
-
+        if ('ontouchstart' in document.documentElement
+            && !$parent.closest(Selector.DROPDOWN + '.' + ClassName.OPEN).length) {
+        
             // if mobile we use a backdrop because click events don't delegate
             var dropdown = document.createElement('div');
             dropdown.className = ClassName.BACKDROP;
-            $(dropdown).insertBefore($(this).closest(Selector.BASE));
+            $(dropdown).insertBefore( $(this).closest(Selector.BASE) );
             $(dropdown).on('click', NavDropdown._clearMenus);
 
         }
@@ -353,7 +359,7 @@
         this.setAttribute('aria-expanded', 'true');
 
         $parent.toggleClass(ClassName.OPEN);
-        $parent.trigger($.Event(Event.SHOWN, relatedTarget));
+        $parent.trigger( $.Event(Event.SHOWN, relatedTarget) );
 
         return false;
     };
@@ -372,15 +378,15 @@
         }
 
         var collapseEvent;
-        var filter = function() { return false; };
+        var filter = function(){ return false; };
 
         if (event.target) {
 
             if (this === document) {
 
-                if ($(event.target).is('a:not([disabled], .' + ClassName.DISABLED + ')')) {
+                if ( $(event.target).is('a:not([disabled], .' + ClassName.DISABLED +  ')') ) {
                     collapseEvent = $.Event(Event.COLLAPSE, { relatedTarget: event.target })
-                } else {
+                } else  {
 
                     var $rootNode = (event.targetWrapper && $(event.targetWrapper).find(Selector.BASE)) || $(event.target).closest(Selector.BASE);
 
@@ -406,7 +412,7 @@
 
         }
 
-        var toggles = (event.data && event.data.toggles && $(event.data.toggles).parent().find(Selector.DATA_TOGGLE)) || $.makeArray($(Selector.DATA_TOGGLE).not(filter));
+        var toggles = (event.data && event.data.toggles && $(event.data.toggles).parent().find(Selector.DATA_TOGGLE)) || $.makeArray( $(Selector.DATA_TOGGLE).not(filter) );
 
         for (var i = 0; i < toggles.length; i++) {
 
@@ -433,8 +439,8 @@
 
             $(parent)
                 .removeClass(ClassName.OPEN)
-                .trigger($.Event(Event.HIDDEN, relatedTarget));
-
+                .trigger( $.Event(Event.HIDDEN, relatedTarget) );
+                
         }
 
         if (collapseEvent) {
@@ -446,23 +452,23 @@
     // static
     NavDropdown._dataApiKeydownHandler = function(event) {
 
-        if (/input|textarea/i.test(event.target.tagName)) {
+          if (/input|textarea/i.test(event.target.tagName)) {
             return;
-        }
+          }
 
-        // ????
-        var found;
-        for (var k in Hotkeys) {
+          // ????
+          var found;
+          for (var k in Hotkeys) {
             if (found = (Hotkeys[k] === event.which)) {
                 break;
             }
-        }
-        if (!found) return;
+          }
+          if (!found) return;
 
-        event.preventDefault();
-        event.stopPropagation();
+          event.preventDefault();
+          event.stopPropagation();
 
-        if (event.which == Hotkeys.ESC) {
+          if (event.which == Hotkeys.ESC) {
 
             if (NavDropdown._isCollapsed(this)) {
                 return;
@@ -474,24 +480,24 @@
             toggle.trigger('focus');
             return;
 
-        }
+          }
 
-        if (event.target.tagName != 'A') {
+          if (event.target.tagName != 'A') {
             return;
-        }
+          }
 
-        var $$item = $$(event.target);
+          var $$item = $$(event.target);
+          
+          $$item.prop(':flat', NavDropdown._isCollapsed($$item.root()));
 
-        $$item.prop(':flat', NavDropdown._isCollapsed($$item.root()));
-
-        if ($$item.is(':flat')) {
+          if ($$item.is(':flat')){
 
             if (event.which === Hotkeys.DOWN || event.which === Hotkeys.UP) {
 
-                $$item[event.which === Hotkeys.UP ? 'prev' : 'next']().focus();
+                $$item[ event.which === Hotkeys.UP ? 'prev' : 'next' ]().focus();
 
             } else if (event.which === Hotkeys.LEFT) {
-
+                
                 if ($$item.is(':opened')) {
                     $$item.close();
                 } else {
@@ -502,33 +508,33 @@
                 $$item.open();
             }
 
-        } else if ($$item.is(':upper')) {
-
-            if (event.which === Hotkeys.LEFT || event.which === Hotkeys.RIGHT) {
+          } else if ($$item.is(':upper')) {
+          
+              if (event.which === Hotkeys.LEFT || event.which === Hotkeys.RIGHT) {
 
                 $$item[event.which === Hotkeys.LEFT ? 'prev' : 'next']().focus().open();
                 if ($$item.is(':toggle')) $$item.close();
 
-            } else if ((event.which === Hotkeys.DOWN || event.which === Hotkeys.UP) && $$item.is(':toggle')) {
+              } else if ((event.which === Hotkeys.DOWN || event.which === Hotkeys.UP) && $$item.is(':toggle')) {
 
-                $$item.children()[event.which === Hotkeys.DOWN ? 'first' : 'last']().focus();
+                $$item.children()[ event.which === Hotkeys.DOWN ? 'first' : 'last' ]().focus();
 
-            }
+              }
 
-        } else {
+          } else {
 
-            if (event.which === Hotkeys.LEFT) {
+              if (event.which === Hotkeys.LEFT) {
 
                 var $$parent = $$item.parent();
-
+                
                 if ($$parent.is(':upper')) {
                     $$parent.close().prev().focus().open();
                 } else {
                     $$parent.focus().close();
                 }
 
-            } else if (event.which === Hotkeys.RIGHT) {
-
+              } else if (event.which === Hotkeys.RIGHT) {
+                
                 var $$children = $$item.children();
                 if ($$children.length) {
                     $$item.open();
@@ -537,31 +543,31 @@
                     $$item.parents(':upper').close().next().focus().open();
                 }
 
-            } else if (event.which === Hotkeys.DOWN || event.which === Hotkeys.UP) {
+              } else if (event.which === Hotkeys.DOWN || event.which === Hotkeys.UP) {
 
-                $$item[event.which === Hotkeys.UP ? 'prev' : 'next']().focus();
+                $$item[ event.which === Hotkeys.UP ? 'prev' : 'next' ]().focus();
 
-            }
+              }
 
-        }
-
+          }
+          
     };
 
     // static
     NavDropdown._isCollapsed = function(rootNode) {
         var match;
         if (rootNode.length) rootNode = rootNode[0];
-        return rootNode && (match = /navbar-toggleable-(xs|sm|md|lg|xl)/.exec(rootNode.className)) &&
-            (window.innerWidth < Breakpoints[match[1].toUpperCase()]);
+        return rootNode && (match = /navbar-toggleable-(xs|sm|md|lg|xl)/.exec(rootNode.className))
+            && (window.innerWidth < Breakpoints[ match[1].toUpperCase() ]);
     };
 
     // static
     NavDropdown._dataApiResizeHandler = function() {
 
-        $(Selector.BASE).each(function() {
-
+        $(Selector.BASE).each(function(){
+            
             var isCollapsed = NavDropdown._isCollapsed(this);
-
+            
             $(this).find(Selector.DROPDOWN).removeClass(ClassName.OPEN);
             $(this).find('[aria-expanded="true"]').attr('aria-expanded', 'false');
 
@@ -593,9 +599,9 @@
      */
 
     $.fn[NAME] = function(config) {
-        return this.each(function() {
-
-            var data = $(this).data(DATA_KEY);
+        return this.each(function(){
+            
+            var data  = $(this).data(DATA_KEY);
 
             if (!data) {
                 $(this).data(DATA_KEY, (data = new NavDropdown(this)));
@@ -616,18 +622,22 @@
     };
     $.fn[NAME].Constructor = NavDropdown;
     $.fn[NAME].$$ = $$;
+
+
     $(window)
         .on(Event.RESIZE_DATA_API + ' ' + Event.LOAD_DATA_API, NavDropdown._dataApiResizeHandler);
 
     $(document)
-        .on(Event.KEYDOWN_DATA_API, Selector.BASE, NavDropdown._dataApiKeydownHandler)
+        .on(Event.KEYDOWN_DATA_API, Selector.BASE,  NavDropdown._dataApiKeydownHandler)
         .on(Event.NAVBAR_COLLAPSE, NavDropdown._clearMenus)
         .on(Event.CLICK_DATA_API, NavDropdown._clearMenus)
         .on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE, NavDropdown.prototype.toggle)
-        .on(Event.CLICK_DATA_API, Selector.FORM_CHILD, function(e) {
+        .on(Event.CLICK_DATA_API, Selector.FORM_CHILD, function(e){
             e.stopPropagation();
         });
 
     $(window)
-        .trigger(Event.READY);
+       .trigger(Event.READY);
+
+
 })(jQuery);
